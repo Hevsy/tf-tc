@@ -18,8 +18,8 @@ jobs:
 
       - name: TFLint
         run: |
-          cd /usr/bin
-          curl --location "https://github.com/terraform-linters/tflint/releases/download/v0.33.0/tflint_linux_amd64.zip" --output tflint_linux_amd64.zip
+          curl --location "https://github.com/terraform-linters/tflint/releases/download/v0.33.0/tflint_linux_amd64.zip" --output "${{ github.workspace }}/tflint_linux_amd64.zip"
+          cd ${{ github.workspace }}
           unzip -o tflint_linux_amd64.zip
 
       - name: Initialize Terraform
