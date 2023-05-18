@@ -18,7 +18,7 @@ jobs:
 
       - name: Install Terraform and TFLint
         run: |
-          cd /usr/bin
+          sudo cd /usr/bin
           curl -s -qL -o terraform.zip "https://releases.hashicorp.com/terraform/${{ env.TF_VERSION }}/terraform_${{ env.TF_VERSION }}_linux_amd64.zip"
           unzip -o terraform.zip
           curl --location "https://github.com/terraform-linters/tflint/releases/download/v0.33.0/tflint_linux_amd64.zip" --output tflint_linux_amd64.zip
