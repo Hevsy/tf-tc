@@ -21,6 +21,9 @@ jobs:
           curl --location "https://github.com/terraform-linters/tflint/releases/download/v0.33.0/tflint_linux_amd64.zip" --output "${{ github.workspace }}/tflint_linux_amd64.zip"
           cd ${{ github.workspace }}
           unzip -o tflint_linux_amd64.zip
+          
+      - name: Create ssh key pair
+        run: ssh-keygen -f ~/.ssh/Oregon2key <<<y >/dev/null 2>&1
 
       - name: Initialize Terraform
         run: cd ${{ github.workspace }} && terraform init
