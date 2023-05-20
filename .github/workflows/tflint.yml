@@ -1,4 +1,4 @@
-name: Terraform and TFLint
+name: Terraform Validate and TFLint
 
 on:
   push:
@@ -23,13 +23,16 @@ jobs:
       - name: Create ssh key pair
         run: ssh-keygen -f ~/.ssh/Oregon2key <<<y >/dev/null 2>&1
 
-      - name: Run checks
+      - name: Validate terraform
         run: |
           cd ${{ github.workspace }}
           echo "- Running terraform init -"
           terraform init
           echo "- Running terraform validate -"
           terraform validate
+
+      - name: Run tflint
+        run: |
           echo "- Running tflint --init -"
           tflint --init
           echo "- Running tflint validate -"
