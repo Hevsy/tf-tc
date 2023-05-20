@@ -1,0 +1,34 @@
+name: Terrascan
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  terrascan_job:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      
+    - name: Run Terrascan
+      id: terrascan
+      uses: tenable/terrascan-action@main
+      with:
+        iac_type: 'terraform'
+        iac_version: 'v14'
+        policy_type: 'aws'
+        only_warn: true
+        #scm_token: ${{ secrets.ACCESS_TOKEN }}
+        #verbose: true
+        #sarif_upload: true
+        #non_recursive:
+        #iac_dir:
+        #policy_path:
+        #skip_rules:
+        #config_path:
+        #find_vulnerabilities:
+        #webhook_url:
+        #webhook_token:
