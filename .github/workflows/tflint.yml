@@ -32,10 +32,10 @@ jobs:
         run: cd ${{ github.workspace }} && terraform validate
 
       - name: Initialize TFLint
-        run: tflint --init
+        run: cd ${{ github.workspace }} && tflint --init
 
       - name: Run TFLint
-        run: tflint
+        run: cd ${{ github.workspace }} && tflint
 
       - name: Post Build Steps
         run: |
