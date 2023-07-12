@@ -5,8 +5,8 @@ variable "ssh_location" {
 }
 
 resource "aws_vpc" "finance_vpc" {
-  cidr_block           = "10.0.0.0/16"
-  enable_dns_support   = true
+  cidr_block         = "10.0.0.0/16"
+  enable_dns_support = true
   tags = {
     Name = "FinanceVPC"
   }
@@ -49,9 +49,9 @@ resource "aws_subnet" "private_subnet4" {
 }
 
 resource "aws_subnet" "public_subnet1" {
-  availability_zone   = data.aws_availability_zones.available.names[0]
-  vpc_id              = aws_vpc.finance_vpc.id
-  cidr_block          = "10.0.10.0/24"
+  availability_zone       = data.aws_availability_zones.available.names[0]
+  vpc_id                  = aws_vpc.finance_vpc.id
+  cidr_block              = "10.0.10.0/24"
   map_public_ip_on_launch = true
   tags = {
     Name = "PublicSubnet1"
@@ -59,9 +59,9 @@ resource "aws_subnet" "public_subnet1" {
 }
 
 resource "aws_subnet" "public_subnet2" {
-  availability_zone   = data.aws_availability_zones.available.names[1]
-  vpc_id              = aws_vpc.finance_vpc.id
-  cidr_block          = "10.0.11.0/24"
+  availability_zone       = data.aws_availability_zones.available.names[1]
+  vpc_id                  = aws_vpc.finance_vpc.id
+  cidr_block              = "10.0.11.0/24"
   map_public_ip_on_launch = true
   tags = {
     Name = "PublicSubnet2"
@@ -76,7 +76,7 @@ resource "aws_internet_gateway" "finance_igw" {
 }
 
 resource "aws_internet_gateway_attachment" "attach_gateway" {
-  vpc_id             = aws_vpc.finance_vpc.id
+  vpc_id              = aws_vpc.finance_vpc.id
   internet_gateway_id = aws_internet_gateway.finance_igw.id
 }
 
@@ -88,45 +88,45 @@ resource "aws_route_table" "public_rt" {
 }
 
 resource "aws_route" "public_rt_internet" {
-route_table_id = aws_route_table.public_rt.id
-destination_cidr_block = "0.0.0.0/0"
-gateway_id = aws_internet_gateway.finance_igw.id
+  route_table_id         = aws_route_table.public_rt.id
+  destination_cidr_block = "0.0.0.0/0"
+  gateway_id             = aws_internet_gateway.finance_igw.id
 }
 
 resource "aws_route_table_association" "public_subnet1_association" {
-subnet_id = aws_subnet.public_subnet1.id
-route_table_id = aws_route_table.public_rt.id
+  subnet_id      = aws_subnet.public_subnet1.id
+  route_table_id = aws_route_table.public_rt.id
 }
 
 resource "aws_route_table_association" "public_subnet2_association" {
-subnet_id = aws_subnet.public_subnet2.id
-route_table_id = aws_route_table.public_rt.id
+  subnet_id      = aws_subnet.public_subnet2.id
+  route_table_id = aws_route_table.public_rt.id
 }
 
 resource "aws_security_group" "finance_sg" {
-name = "FinanceSecurityGroup"
-description = "Security group for finance resources"
+  name        = "FinanceSecurityGroup"
+  description = "Security group for finance resources"
 
-ingress {
-from_port = 22
-to_port = 22
-protocol = "tcp"
-cidr_blocks = [var.ssh_location]
-}
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = [var.ssh_location]
+  }
 
-ingress {
-from_port = 80
-to_port = 80
-protocol = "tcp"
-cidr_blocks = ["0.0.0.0/0"]
-}
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 
-egress {
-from_port = 0
-to_port = 0
-protocol = "-1"
-cidr_blocks = ["0.0.0.0/0"]
-}
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 
-vpc_id = aws_vpc.finance_vpc.id
+  vpc_id = aws_vpc.finance_vpc.id
 }
