@@ -1,17 +1,3 @@
-variable "key_name" {
-  description = "Name of an existing EC2 key pair for SSH access to the EC2 instance."
-}
-
-variable "ssh_location" {
-  description = "The IP address range that can be used to SSH to the EC2 instances."
-  type        = string
-  default     = "0.0.0.0/0"
-}
-
-variable "image_id" {
-  description = "EC2 Image ID - leave default for the latest Amazon Linux 2 image."
-}
-
 resource "aws_vpc" "finance_vpc" {
   cidr_block           = "10.0.0.0/16"
   enable_dns_support   = true
