@@ -3,6 +3,7 @@ data "aws_availability_zones" "available" {
   state = "available"
 }
 
+# tflint-ignore: terraform_unused_declarations
 data "aws_ami" "server_ami" {
   most_recent = true
   owners      = ["137112412989"]
